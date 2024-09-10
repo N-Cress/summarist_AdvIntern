@@ -1,22 +1,128 @@
+"use client"
+
 /* eslint-disable react/no-unescaped-entities */
 import Image from "next/image";
+import { useState } from "react";
 import { AiFillAudio, AiFillBulb, AiFillFileText } from "react-icons/ai";
 import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
+import { IoPerson, IoPersonSharp } from "react-icons/io5";
 import { RiLeafLine } from "react-icons/ri";
 
 
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showNewAccount, setShowNewAccount] = useState(false);
+  
+  function toggleModal() {
+    setShowModal(!showModal);
+  }
+
+  function toggleForgot() {
+    setShowModal(!showModal);
+    setShowForgotPassword(!showForgotPassword);
+  }
+
+  function toggleNewAccount() {
+    setShowModal(!showModal);
+    setShowNewAccount(!showNewAccount);
+  }
+
+  function closeAllModals() {
+    if(showModal === true || showForgotPassword === true || showNewAccount === true) {
+      setShowModal(false);
+      setShowForgotPassword(false);
+      setShowNewAccount(false);
+    }
+  }
+
   return (
     <body>
+      {showModal && 
+    <div onClick={closeAllModals} className="modal">
+      <div className="modal_container"> 
+        <div className="modal_x"> 
+          <button className="modal_x-button" onClick={toggleModal}>  ╳ </button>
+        </div>
+        <div className="modal_header"> Log in to Summarist </div>
+        <button className="modal_button button_guest"> 
+          <IoPersonSharp size={24}/> 
+          <div className="button_text-guest"> Login as a Guest</div>  
+        </button>
+        <div className="or_line"> 
+          <div className="or_before-after"> </div>
+          <span className="or"> or </span>
+        </div>
+        <button className="modal_button button_google"> 
+          <img src="/assets/google.png" className="google-img" alt="google logo"/>
+          <div className="button_text"> Login with Google</div>  
+        </button>
+        <div className="or_line"> 
+          <span className="or"> or </span>
+        </div>
+        <form className="modal_form"> 
+          <input className="modal_form-input" type="text" placeholder="Email Address" />
+          <input className="modal_form-input" type="password" placeholder="Password" />
+          <button className="modal_form-button">
+            <div> Login   </div>
+          </button> 
+        </form>
+        <div className="modal_forgot" onClick={toggleForgot}> Forgot your password? </div>
+        <button onClick={toggleNewAccount} className="modal_newAccount"> Don't have an account? </button>
+      </div> 
+    </div>
+      }
+      {showForgotPassword && 
+    <div className="modal">
+      <div className="modal_container-forgot"> 
+        <div className="modal_x"> 
+          <button className="modal_x-button" onClick={closeAllModals}>  ╳ </button>
+        </div>
+        <div className="modal_header forgot_header"> Reset your password</div>
+        <form className="modal_form"> 
+          <input className="modal_form-input" type="text" placeholder="Email Address" />
+          <button className="modal_form-button forgot_button">
+            <div> Send reset password link  </div>
+          </button> 
+        </form>
+        <button onClick={toggleForgot} className="modal_newAccount"> Go to login </button>
+      </div> 
+    </div>
+      }
+      {showNewAccount && 
+    <div className="modal">
+      <div className="modal_container-new"> 
+        <div className="modal_x"> 
+          <button className="modal_x-button" onClick={closeAllModals}>  ╳ </button>
+        </div>
+        <div className="modal_header "> Sign up to Summarist</div>
+        <button className="modal_button button_google"> 
+          <img src="/assets/google.png" className="google-img" alt="google logo"/>
+          <div className="button_text"> Login with Google</div>  
+        </button>
+        <div className="or_line"> 
+          <span className="or"> or </span>
+        </div>
+        <form className="modal_form"> 
+          <input className="modal_form-input" type="text" placeholder="Email Address" />
+          <input className="modal_form-input" type="password" placeholder="Password" /> 
+          <button className="modal_form-button button-newaccount">
+            <div> Sign up  </div>
+          </button> 
+        </form>
+        <button onClick={toggleNewAccount} className="modal_newAccount"> Already have an account? </button>
+      </div> 
+    </div>
+      }
     <nav className="nav">
       <div className="nav__wrapper">
         <figure className="nav__img--mask">
           <img className="nav__img" src="/assets/logo.png" alt="logo" />
         </figure>
         <ul className="nav__list--wrapper">
-          <li className="nav__list nav__list--login">Login</li>
+          <li onClick={toggleModal} className="nav__list nav__list--login">Login</li>
           <li className="nav__list nav__list--mobile">About</li>
           <li className="nav__list nav__list--mobile">Contact</li>
           <li className="nav__list nav__list--mobile">Help</li>
